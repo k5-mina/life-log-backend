@@ -13,8 +13,14 @@ public class NoiseLogService {
         this.noiseLogRepository = noiseLogRepository;
     }
 
-    public NoiseLog register(int noiseLevel, String memo) {
-        NoiseLog noiseLog = new NoiseLog(noiseLevel, memo);
+    public NoiseLog register(NoiseLog request) {
+        NoiseLog noiseLog = new NoiseLog(
+                request.getNoiseLevel(),
+                request.getOccurrenceDate(),
+                request.getStartTime(),
+                request.getEndTime(),
+                request.getNoiseType(),
+                request.getMemo());
         return noiseLogRepository.save(noiseLog);
     }
 

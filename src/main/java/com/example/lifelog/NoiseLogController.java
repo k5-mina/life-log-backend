@@ -6,6 +6,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/noise-log")
+@CrossOrigin(origins = "http://localhost:4200")
 public class NoiseLogController {
 
     private final NoiseLogService noiseLogService;
@@ -14,9 +15,9 @@ public class NoiseLogController {
         this.noiseLogService = noiseLogService;
     }
 
-    @GetMapping
-    public NoiseLog register(@RequestParam int noiseLevel, @RequestParam String memo) {
-        return noiseLogService.register(noiseLevel, memo);
+    @PostMapping
+    public NoiseLog register(@RequestBody NoiseLog request) {
+        return noiseLogService.register(request);
     }
 
     @GetMapping("/all")
