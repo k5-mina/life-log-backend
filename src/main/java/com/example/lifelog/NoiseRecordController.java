@@ -1,0 +1,39 @@
+package com.example.lifelog;
+
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/noise-records")
+@CrossOrigin(origins = "${app.cors.allowed-origin}")
+public class NoiseRecordController {
+
+    private final NoiseRecordService noiseRecordService;
+
+    public NoiseRecordController(NoiseRecordService noiseRecordService) {
+        this.noiseRecordService = noiseRecordService;
+    }
+
+    @GetMapping("/counts")
+    public List<Object[]> getRecordCounts(
+            @RequestParam int year,
+            @RequestParam int month) {
+        return noiseRecordService.getRecordCounts(year, month);
+    }
+
+    @PostMapping
+    public NoiseRecord register(@RequestBody NoiseRecord request) {
+        return noiseRecordService.register(request);
+    }
+
+    @GetMapping("/all")
+    public List<NoiseRecord> findAll() {
+        return noiseRecordService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public NoiseRecord findById(@PathVariable long id) {
+        return noiseRecordService.findById(id);
+    }
+}
