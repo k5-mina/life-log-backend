@@ -4,9 +4,9 @@ CREATE TABLE noise_records (
     occurrence_time time,
     duration_category smallint
         CHECK (duration_category BETWEEN 1 AND 7),
-    noise_level integer NOT NULL
-        CHECK (noise_level BETWEEN 1 AND 5),
-    noise_type varchar(50) NOT NULL,
+    occurrence_source varchar(50) NOT NULL,
+    sound_level integer NOT NULL
+        CHECK (sound_level BETWEEN 1 AND 5),
     memo text,
     created_by varchar(100) NOT NULL,
     created_at timestamptz NOT NULL,
