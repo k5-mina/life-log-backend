@@ -1,11 +1,14 @@
 package com.example.lifelog;
 
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@Transactional
 public class NoiseRecordService {
 
     private final NoiseRecordRepository noiseRecordRepository;
@@ -21,15 +24,18 @@ public class NoiseRecordService {
         return noiseRecordRepository.getRecordCounts(startDate, endDate);
     }
 
-    public NoiseRecord register(NoiseRecord request) {
+    public void register(NoiseRecordCreateRequest request) {
         NoiseRecord noiseRecord = new NoiseRecord(
-                request.getOccurrenceDate(),
-                request.getOccurrenceTime(),
-                request.getDurationCategory(),
-                request.getNoiseLevel(),
-                request.getNoiseType(),
-                request.getMemo());
-        return noiseRecordRepository.save(noiseRecord);
+                request.occurrenceDate(),
+                request.occurrenceTime(),
+                request.durationCategory(),
+                request.occurrenceSource(),
+                request.soundLevel(),
+                request.memo());
+        for (String soundType : request.soundTypes()) {
+            noiseRecord.addSoundType(soundType);
+        }
+        noiseRecordRepository.save(noiseRecord);
     }
 
     public List<NoiseRecord> findAll() {

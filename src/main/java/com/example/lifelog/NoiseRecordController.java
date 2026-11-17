@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/noise-records")
+@RequestMapping("/noise-record")
 @CrossOrigin(origins = "${app.cors.allowed-origin}")
 public class NoiseRecordController {
 
@@ -23,8 +23,8 @@ public class NoiseRecordController {
     }
 
     @PostMapping
-    public NoiseRecord register(@RequestBody NoiseRecord request) {
-        return noiseRecordService.register(request);
+    public void register(@RequestBody NoiseRecordCreateRequest request) {
+        noiseRecordService.register(request);
     }
 
     @GetMapping("/all")

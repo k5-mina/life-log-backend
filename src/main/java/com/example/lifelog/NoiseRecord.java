@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "noise_records")
@@ -23,11 +25,14 @@ public class NoiseRecord extends BaseEntity {
     @Column(name = "duration_category")
     private Short durationCategory;
 
-    @Column(name = "noise_level", nullable = false)
-    private int noiseLevel;
+    @Column(name = "occurrence_source", nullable = false)
+    private String occurrenceSource;
 
-    @Column(name = "noise_type", nullable = false)
-    private String noiseType;
+    @Column(name = "sound_level", nullable = false)
+    private int soundLevel;
+
+    @OneToMany(mappedBy = "noiseRecord", cascade = CascadeType.ALL)
+    private List<NoiseRecordSoundType> soundTypes = new ArrayList<>();
 
     @Column(name = "memo")
     private String memo;
@@ -39,14 +44,14 @@ public class NoiseRecord extends BaseEntity {
             LocalDate occurrenceDate,
             LocalTime occurrenceTime,
             Short durationCategory,
-            int noiseLevel,
-            String noiseType,
+            String occurrenceSource,
+            int soundLevel,
             String memo) {
         this.occurrenceDate = occurrenceDate;
         this.occurrenceTime = occurrenceTime;
         this.durationCategory = durationCategory;
-        this.noiseLevel = noiseLevel;
-        this.noiseType = noiseType;
+        this.occurrenceSource = occurrenceSource;
+        this.soundLevel = soundLevel;
         this.memo = memo;
     }
 
@@ -54,8 +59,8 @@ public class NoiseRecord extends BaseEntity {
         return id;
     }
 
-    public int getNoiseLevel() {
-        return noiseLevel;
+    public int getSoundLevel() {
+        return soundLevel;
     }
 
     public LocalDate getOccurrenceDate() {
@@ -70,8 +75,13 @@ public class NoiseRecord extends BaseEntity {
         return durationCategory;
     }
 
-    public String getNoiseType() {
-        return noiseType;
+    public String getOccurrenceSource() {
+        return occurrenceSource;
+    }
+
+    public void addSoundType(String soundType) {
+        NoiseRecordSoundType child = new NoiseRecordSoundType(this, soundType);
+        soundTypes.add(child);
     }
 
     public String getMemo() {
