@@ -16,7 +16,7 @@ public class NoiseRecordController {
     }
 
     @GetMapping("/counts")
-    public List<Object[]> getRecordCounts(
+    public List<NoiseRecordCountResponse> getRecordCounts(
             @RequestParam int year,
             @RequestParam int month) {
         return noiseRecordService.getRecordCounts(year, month);

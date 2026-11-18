@@ -17,7 +17,7 @@ public class NoiseRecordService {
         this.noiseRecordRepository = noiseRecordRepository;
     }
 
-    public List<Object[]> getRecordCounts(int year, int month) {
+    public List<NoiseRecordCountResponse> getRecordCounts(int year, int month) {
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.plusMonths(1);
 

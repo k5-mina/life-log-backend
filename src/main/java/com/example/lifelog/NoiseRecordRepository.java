@@ -10,14 +10,17 @@ import java.util.List;
 public interface NoiseRecordRepository extends JpaRepository<NoiseRecord, Long> {
 
     @Query("""
-            SELECT n.occurrenceDate, COUNT(n)
+            SELECT new com.example.lifelog.NoiseRecordCountResponse(
+                n.occurrenceDate,
+                COUNT(n)
+            )
             FROM NoiseRecord n
             WHERE n.occurrenceDate >= :startDate
             AND n.occurrenceDate < :endDate
             AND n.deletedAt IS NULL
             GROUP BY n.occurrenceDate
             """)
-    List<Object[]> getRecordCounts(
+    List<NoiseRecordCountResponse> getRecordCounts(
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate
     );
