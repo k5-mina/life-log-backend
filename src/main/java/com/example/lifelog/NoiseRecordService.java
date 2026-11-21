@@ -31,10 +31,8 @@ public class NoiseRecordService {
                 request.durationCategory(),
                 request.occurrenceSource(),
                 request.soundLevel(),
+                request.soundTypes(),
                 request.memo());
-        for (String soundType : request.soundTypes()) {
-            noiseRecord.addSoundType(soundType);
-        }
         noiseRecordRepository.save(noiseRecord);
     }
 

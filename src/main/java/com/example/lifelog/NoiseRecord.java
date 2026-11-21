@@ -46,6 +46,7 @@ public class NoiseRecord extends BaseEntity {
             Short durationCategory,
             String occurrenceSource,
             int soundLevel,
+            List<String> soundTypes,
             String memo) {
         this.occurrenceDate = occurrenceDate;
         this.occurrenceTime = occurrenceTime;
@@ -53,6 +54,15 @@ public class NoiseRecord extends BaseEntity {
         this.occurrenceSource = occurrenceSource;
         this.soundLevel = soundLevel;
         this.memo = memo;
+
+        for (String soundType : soundTypes) {
+            this.addSoundType(soundType);
+        }
+    }
+
+    private void addSoundType(String soundType) {
+        NoiseRecordSoundType child = new NoiseRecordSoundType(this, soundType);
+        soundTypes.add(child);
     }
 
     public long getId() {
@@ -77,11 +87,6 @@ public class NoiseRecord extends BaseEntity {
 
     public String getOccurrenceSource() {
         return occurrenceSource;
-    }
-
-    public void addSoundType(String soundType) {
-        NoiseRecordSoundType child = new NoiseRecordSoundType(this, soundType);
-        soundTypes.add(child);
     }
 
     public String getMemo() {
