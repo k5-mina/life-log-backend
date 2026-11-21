@@ -1,5 +1,6 @@
 package com.example.lifelog;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class NoiseRecordController {
     }
 
     @PostMapping
-    public void register(@RequestBody NoiseRecordCreateRequest request) {
+    public void register(@Valid @RequestBody NoiseRecordCreateRequest request) {
         noiseRecordService.register(request);
     }
 
