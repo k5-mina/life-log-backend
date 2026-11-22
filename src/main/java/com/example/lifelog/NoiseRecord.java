@@ -69,10 +69,6 @@ public class NoiseRecord extends BaseEntity {
         return id;
     }
 
-    public int getSoundLevel() {
-        return soundLevel;
-    }
-
     public LocalDate getOccurrenceDate() {
         return occurrenceDate;
     }
@@ -87,6 +83,14 @@ public class NoiseRecord extends BaseEntity {
 
     public String getOccurrenceSource() {
         return occurrenceSource;
+    }
+
+    public int getSoundLevel() {
+        return soundLevel;
+    }
+
+    public List<NoiseRecordSoundType> getSoundTypes() {
+        return soundTypes;
     }
 
     public String getMemo() {

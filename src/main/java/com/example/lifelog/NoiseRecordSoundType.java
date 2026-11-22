@@ -22,4 +22,20 @@ public class NoiseRecordSoundType {
         this.noiseRecord = noiseRecord;
         this.soundType = soundType;
     }
+
+    public NoiseRecord getNoiseRecord() {
+        return noiseRecord;
+    }
+
+    public void setNoiseRecord(NoiseRecord noiseRecord) {
+        this.noiseRecord = noiseRecord;
+    }
+
+    public String getSoundType() {
+        return soundType;
+    }
+
+    public void setSoundType(String soundType) {
+        this.soundType = soundType;
+    }
 }

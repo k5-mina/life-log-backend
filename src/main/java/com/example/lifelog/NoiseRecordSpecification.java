@@ -70,4 +70,9 @@ public class NoiseRecordSpecification {
             return cb.exists(subquery);
         };
     }
+
+    public static Specification<NoiseRecord> notDeleted() {
+        return (root, query, cb) ->
+                cb.isNull(root.get("deleted_at"));
+    }
 }
