@@ -1,6 +1,7 @@
 package com.example.lifelog;
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,13 +29,11 @@ public class NoiseRecordController {
         noiseRecordService.register(request);
     }
 
-    @GetMapping("/all")
-    public List<NoiseRecord> findAll() {
-        return noiseRecordService.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public NoiseRecord findById(@PathVariable long id) {
-        return noiseRecordService.findById(id);
+    @PostMapping("/search")
+    public Page<NoiseRecordSearchResponse> search(
+            @RequestBody NoiseRecordSearchCondition request,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return noiseRecordService.searchNoiseRecord(request, page, size);
     }
 }

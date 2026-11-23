@@ -11,17 +11,30 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class NoiseRecordService {
 
     private final NoiseRecordRepository noiseRecordRepository;
+    private final NoiseRecordSoundTypeRepository noiseRecordSoundTypeRepository;
 
-    public NoiseRecordService(NoiseRecordRepository noiseRecordRepository) {
+    public NoiseRecordService(
+            NoiseRecordRepository noiseRecordRepository,
+            NoiseRecordSoundTypeRepository noiseRecordSoundTypeRepository) {
         this.noiseRecordRepository = noiseRecordRepository;
+        this.noiseRecordSoundTypeRepository = noiseRecordSoundTypeRepository;
     }
 
+    /**
+     * 対象年月の記録件数を検索する
+     *
+     * @param year  対象年
+     * @param month 対象月
+     * @return 対象年月の記録件数
+     */
     public List<NoiseRecordCountResponse> getRecordCounts(int year, int month) {
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.plusMonths(1);
@@ -30,7 +43,7 @@ public class NoiseRecordService {
     }
 
     /**
-     * 騒音記録をDBに登録する
+     * 騒音記録を新規登録する
      *
      * @param request 新規登録画面から渡されたリクエストパラメータ
      */
@@ -99,8 +112,32 @@ public class NoiseRecordService {
                         Sort.Order.desc("id")
                 ));
 
+        // 検索条件を基に騒音記録を検索する
         Page<NoiseRecord> result = noiseRecordRepository.findAll(spec, pageable);
 
+        // 検索結果からIDのみを抽出する
+        List<Long> recordIds = result.getContent().stream()
+                .map(NoiseRecord::getId)
+                .toList();
+
+        // IDを基に音の種類を検索する
+        List<NoiseRecordSoundType> noiseRecordSoundTypes =
+                recordIds.isEmpty()
+                        ? List.of()
+                        : noiseRecordSoundTypeRepository.getNoiseRecordSoundTypes(recordIds);
+
+        // 音の種類のリストをID単位でグループ化する
+        Map<Long, List<String>> soundTypeByRecordId =
+                noiseRecordSoundTypes.stream()
+                        .collect(Collectors.groupingBy(
+                                soundType -> soundType.getNoiseRecord().getId(),
+                                Collectors.mapping(
+                                        NoiseRecordSoundType::getSoundType,
+                                        Collectors.toList()
+                                )
+                        ));
+
+        // 返却用DTOに値を設定する
         return result.map(record -> new NoiseRecordSearchResponse(
                 record.getId(),
                 record.getOccurrenceDate(),
@@ -108,14 +145,8 @@ public class NoiseRecordService {
                 record.getDurationCategory(),
                 record.getOccurrenceSource(),
                 record.getSoundLevel(),
-                record.getSoundTypes().stream()
-                        .map(NoiseRecordSoundType::getSoundType)
-                        .toList(),
+                soundTypeByRecordId.getOrDefault(record.getId(), List.of()),
                 record.getMemo()
         ));
-    }
-
-    public NoiseRecord findById(long id) {
-        return noiseRecordRepository.findById(id).orElseThrow();
     }
 }
