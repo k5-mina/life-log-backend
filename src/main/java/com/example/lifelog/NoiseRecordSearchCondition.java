@@ -11,7 +11,7 @@ public record NoiseRecordSearchCondition(
         LocalTime occurrenceTimeTo,
         List<Short> durationCategories,
         List<String> occurrenceSources,
-        List<Integer> noiseLevels,
+        List<Integer> soundLevels,
         List<String> soundTypes
 ) {
 }

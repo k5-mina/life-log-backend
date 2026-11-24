@@ -10,7 +10,7 @@ public record NoiseRecordSearchResponse(
         LocalTime occurrenceTime,
         Short durationCategory,
         String occurrenceSource,
-        int noiseLevel,
+        int soundLevel,
         List<String> soundTypes,
         String memo
 ) {

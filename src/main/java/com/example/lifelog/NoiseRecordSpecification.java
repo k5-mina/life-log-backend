@@ -48,7 +48,7 @@ public class NoiseRecordSpecification {
                 root.get("occurrenceSource").in(sources);
     }
 
-    public static Specification<NoiseRecord> noiseLevels(List<Integer> levels) {
+    public static Specification<NoiseRecord> soundLevels(List<Integer> levels) {
         return (root, query, cb) ->
                 root.get("soundLevel").in(levels);
     }

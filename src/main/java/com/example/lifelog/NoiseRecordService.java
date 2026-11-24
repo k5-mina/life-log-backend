@@ -88,8 +88,8 @@ public class NoiseRecordService {
                 request.occurrenceSources() != null && !request.occurrenceSources().isEmpty()
                         ? NoiseRecordSpecification.occurrenceSources(request.occurrenceSources())
                         : Specification.unrestricted(),
-                request.noiseLevels() != null && !request.noiseLevels().isEmpty()
-                        ? NoiseRecordSpecification.noiseLevels(request.noiseLevels())
+                request.soundLevels() != null && !request.soundLevels().isEmpty()
+                        ? NoiseRecordSpecification.soundLevels(request.soundLevels())
                         : Specification.unrestricted(),
                 request.soundTypes() != null && !request.soundTypes().isEmpty()
                         ? NoiseRecordSpecification.soundTypes(request.soundTypes())
