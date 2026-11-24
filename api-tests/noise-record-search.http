@@ -1,0 +1,32 @@
+### 全件検索
+POST http://localhost:8080/noise-record/search?page=0&size=10
+Content-Type: application/json
+
+{
+  "occurrenceDateFrom": null,
+  "occurrenceDateTo": null,
+  "occurrenceTimeFrom": null,
+  "occurrenceTimeTo": null,
+  "durationCategories": [],
+  "occurrenceSources": [],
+  "noiseLevels": [],
+  "soundTypes": []
+}
+
+### 音の大きさが3の記録を検索
+POST http://localhost:8080/noise-record/search?page=0&size=10
+Content-Type: application/json
+
+{
+  "occurrenceDateFrom": null,
+  "occurrenceDateTo": null,
+  "occurrenceTimeFrom": null,
+  "occurrenceTimeTo": null,
+  "durationCategories": [],
+  "occurrenceSources": [],
+  "noiseLevels": [3],
+  "soundTypes": []
+}
+
+### 件数取得
+GET http://localhost:8080/noise-record/counts?year=2026&month=11
